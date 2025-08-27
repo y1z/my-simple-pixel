@@ -45,6 +45,9 @@ func test_plugin_functionality()->void:
 	print("Print ALL node names after modification")
 	my_res.print_all_node_names(nodes)
 	
+	my_res.bitch = 69
+	print("bitches we got %s" % my_res.bitch)
+	
 	
 	
 	

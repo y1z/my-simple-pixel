@@ -85,6 +85,8 @@ private:
 	String name = "Default Item";
 	String description = "This is a default item description.";
 	int price = 0;
+	int bitch = 0;
+
 
 	String get_name() const; // const here means that the function is never making changes to the class / never assigning new values to anything
 	void set_name(const String &p_name); // const here means that we are never editing the string that we are passing ,  & means that this is a reference, so we are never copying the string, we are passing the actual string itself
@@ -93,7 +95,13 @@ private:
 	void set_description(const String &p_description);
 
 	int get_price() const;
+	
 	void set_price(int p_price);
+
+	int get_bitches() const;
+
+	void set_bitches(int new_bitch_amount);
+
 
 	// Just a simple void method that is supposed to spawn things
 	// (Usually you will NEVER have such methods inside a class that inherits from Resource, so this is just an example)

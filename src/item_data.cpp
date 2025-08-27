@@ -37,8 +37,18 @@ void ItemData::set_description(const String &p_description) {
 int ItemData::get_price() const {
 	return price;
 }
+
+
 void ItemData::set_price(int p_price) {
 	price = p_price;
+}
+
+int ItemData::get_bitches()const{
+	return this->bitch;
+}
+
+void ItemData::set_bitches(int new_bitch_amount){
+	this->bitch = new_bitch_amount;
 }
 
 void ItemData::spawn_stuff() {
@@ -249,6 +259,11 @@ void ItemData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_price", "price"), &ItemData::set_price);
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "price"), "set_price", "get_price");
 
+	ClassDB::bind_method(D_METHOD("get_bitches"), &ItemData::get_bitches);
+	ClassDB::bind_method(D_METHOD("set_bitches", "new_bitches_amount"), &ItemData::set_bitches);
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "bitch"), "set_bitches", "get_bitches");
+
+
 	ClassDB::bind_method(D_METHOD("spawn_stuff"), &ItemData::spawn_stuff);
 
 	ClassDB::bind_method(D_METHOD("spawn_custom_scene", "scene_to_spawn"), &ItemData::spawn_custom_scene);
@@ -264,5 +279,6 @@ void ItemData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("modify_all_node_names_wrong_way", "arr", "new_name"), &ItemData::modify_all_node_names_wrong_way);
 
 	ClassDB::bind_method(D_METHOD("create_10k_numbers", "min", "max"), &ItemData::create_10k_numbers);
+
 
 }
