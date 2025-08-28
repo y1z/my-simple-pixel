@@ -2,6 +2,7 @@ extends Node2D
 
 func _ready() -> void:
 	test_plugin_functionality()
+	test_pixel_canvas()
 
 func test_plugin_functionality()->void:
 	var my_res:ItemData = ItemData.new()
@@ -48,7 +49,11 @@ func test_plugin_functionality()->void:
 	my_res.bitch = 69
 	print("bitches we got %s" % my_res.bitch)
 	
-	
+
+func test_pixel_canvas():
+	var pic_canvas = PixelCanvas.new()
+	print("is working = %s" % pic_canvas.test_is_working())
+	pass
 	
 	
 	

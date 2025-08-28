@@ -10,6 +10,7 @@
 // Include things you might be using
 // This line might be unnecessary if we are already including this header in the item_data.hpp file
 #include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/image_texture.hpp>
 
 // Note: We can include extra headers that we need in the implementation of our logic
 // We are NOT required to include them in the .hpp file as well
