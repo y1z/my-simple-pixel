@@ -161,3 +161,6 @@ nbdist/
 *.orig
 *.old
 *.log
+
+# Ignore spacific addons that other people don't want
+test_project/addons/godot-vim
