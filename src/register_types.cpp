@@ -1,5 +1,5 @@
-// Include your classes, that you want to expose to Godot
-#include "item_data.hpp"
+// This class will stay just to be used as a reference
+//#include "item_data.hpp"
 #include "pixel_canvas.hpp"
 
 #include <gdextension_interface.h>
@@ -14,10 +14,12 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 	if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
 		return;
 	}
-
 	// Register your classes here, so they are available in the Godot editor and engine
-	GDREGISTER_CLASS(ItemData)
+
+	// NOTE : I will keep the ItemData class in the source code to just to use as a reference
+	//GDREGISTER_CLASS(ItemData)
 	GDREGISTER_CLASS(PixelCanvas)
+
 }
 
 void uninitialize_gdextension_types(ModuleInitializationLevel p_level) {
