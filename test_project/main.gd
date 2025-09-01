@@ -1,60 +1,33 @@
 extends Node2D
 
-func _ready() -> void:
-	test_plugin_functionality()
-	test_pixel_canvas()
+var image_texture : ImageTexture
+var pix_canvas : PixelCanvas
 
-func test_plugin_functionality()->void:
-	var my_res:ItemData = ItemData.new()
+var scene_sprite : Sprite2D
+
+func _init() -> void:
+	pass
+
+func _ready() -> void:
+	pix_canvas = PixelCanvas.new()
+	if !pix_canvas.start():
+		printerr("[ERR] PixelCanvas could not start")
+	#print("has started = %s" % pix_canvas.is_started())
+	print("test is working = %s " % pix_canvas.test_is_working());
 	
-	print(my_res.name)
-	my_res.name = "Sword"
-	print(my_res.name)
+	pix_canvas.current_color = Color.REBECCA_PURPLE
+	print("Current color = %s" % pix_canvas.current_color)
 	
-	print(my_res.price)
+	pix_canvas.draw_line_l(Vector2i(0,0),Vector2i(10,10));
+	print("Draw line l");
 	
-	var nums:Array[int] = my_res.create_10k_numbers(5, 10)
-	print(nums)
-	
-	print("Spawning stuff..")
-	my_res.spawn_stuff()
-	
-	print("Spawning custom scene..")
-	var custom_scn:PackedScene = preload("res://main.tscn")
-	my_res.spawn_custom_scene(custom_scn)
-	
-	var nodes:Array[Node] = [Node.new(), Node.new()]
-	
-	nodes[0].name = "TestNodeName1"
-	nodes[1].name = "TestNodeName2"
-	
-	print("Print node name")
-	my_res.print_node_name(nodes[0])
-	
-	print("Print resource name")
-	
-	var res:Resource = Resource.new()
-	res.resource_name = "TestResource"
-	
-	my_res.print_resource_name(res)
-	
-	print("Print ALL node names")
-	my_res.print_all_node_names(nodes)
-	
-	my_res.modify_all_node_names_wrong_way(nodes, "RenamedNode")
-	
-	print("Print ALL node names after modification")
-	my_res.print_all_node_names(nodes)
-	
-	my_res.bitch = 69
-	print("bitches we got %s" % my_res.bitch)
-	
+	print("DEFAULT COLOR  = %s" % PixelCanvas.DEFAULT_COLOR())
+	scene_sprite = %Sprite2D
+	test_pixel_canvas()
+	pass
 
 func test_pixel_canvas():
-	var pic_canvas = PixelCanvas.new()
-	print("is working = %s" % pic_canvas.test_is_working())
+	scene_sprite.texture = pix_canvas.get_texture()
+	#print("DEFAULT HEIGHT = %s"  % PixelCanvas.DEFAULT_HEIGHT);
+	#print("DEFAULT WIDTH = %s"  % PixelCanvas.DEFAULT_WIDTH);
 	pass
-	
-	
-	
-	
