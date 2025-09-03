@@ -157,6 +157,7 @@ void
 PixelCanvas::draw_pure_white_canvas ()
 {
 
+  if(!check_if_pixel_canvas_was_started()) {return;}
   gd::PackedByteArray data = ref_image->get_data ();
   gd::print_line (gd::String ("size of data = %s") % data.size ());
 
