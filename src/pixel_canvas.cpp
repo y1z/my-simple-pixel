@@ -48,15 +48,24 @@ PixelCanvas::test_is_working () const
 }
 
 void
+PixelCanvas::draw_points(const godot::PackedVector2Array& points_to_draw)
+{
+  if(!check_if_pixel_canvas_was_started()) {return;}
+}
+
+void
 PixelCanvas::draw_line_l (const godot::Vector2i start,
                           const godot::Vector2i end)
 {
+  if(!check_if_pixel_canvas_was_started()) {return;}
   gd::print_line (gd::String ("[TODO]: Implement draw line"));
 }
 
 void
 PixelCanvas::draw_rainbow_effect ()
 {
+
+  if(!check_if_pixel_canvas_was_started()) {return;}
   const float inverse_width = 1.0f / ref_image->get_width ();
   const float inverse_height = 1.0f / ref_image->get_height ();
   const float inverse_size
@@ -77,6 +86,8 @@ PixelCanvas::draw_rainbow_effect ()
 void
 PixelCanvas::draw_on_data ()
 {
+
+  if(!check_if_pixel_canvas_was_started()) {return;}
   gd::print_line ("start 'draw_on_data'");
   gd::PackedByteArray data = ref_image->get_data ();
   
@@ -104,6 +115,8 @@ PixelCanvas::draw_on_data ()
 void
 PixelCanvas::draw_diagnal_rgb_effect ()
 {
+  if(!check_if_pixel_canvas_was_started()) {return;}
+
   gd::PackedByteArray data = ref_image->get_data ();
 
   std::array<std::array<int64_t, 4>, 4> meta_color_array;
@@ -270,6 +283,18 @@ PixelCanvas::update_texture(const godot::PackedByteArray& texture_update)
   ref_texture->update (ref_image);
 }
 
+bool
+PixelCanvas::check_if_pixel_canvas_was_started()const
+{
+  if(!has_started)
+  {
+    gd::print_error("you need to call the 'start' function for this to work");
+    return has_started;
+  }
+
+  return has_started;
+}
+
 void
 PixelCanvas::_bind_methods ()
 {
@@ -288,6 +313,7 @@ PixelCanvas::_bind_methods ()
   BIND_METHOD_NO_ARGS (PixelCanvas, draw_on_data);
   BIND_METHOD_NO_ARGS (PixelCanvas, draw_diagnal_rgb_effect);
   BIND_METHOD_NO_ARGS (PixelCanvas, draw_pure_white_canvas);
+  BIND_METHOD_NO_ARGS (PixelCanvas, draw_points);
 
   gd::ClassDB::bind_method (D_METHOD ("draw_line_l", "start", "end"),
                             &PixelCanvas::draw_line_l);

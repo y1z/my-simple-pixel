@@ -4,10 +4,12 @@
 #include "godot_cpp/classes/ref.hpp"
 #include "godot_cpp/variant/color.hpp"
 #include "godot_cpp/variant/packed_byte_array.hpp"
+#include "godot_cpp/variant/packed_vector2_array.hpp"
 #include "godot_cpp/variant/vector2i.hpp"
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/image_texture.hpp>
 #include <godot_cpp/classes/resource.hpp>
+//#include "godot_cpp/templates/vector.hpp"
 
 #include <cstdint>
 
@@ -26,6 +28,7 @@ public:
   bool test_is_working () const;
 
   // Draw
+  void draw_points(const godot::PackedVector2Array& points_to_draw);
   void draw_line_l (const godot::Vector2i start, const godot::Vector2i end);
   void draw_rainbow_effect ();
   void draw_on_data ();
@@ -49,6 +52,7 @@ public:
 private:
   int64_t get_format_color_offset()const;
   void update_texture(const godot::PackedByteArray& texture_update);
+  bool check_if_pixel_canvas_was_started()const;
 
 public:
   static godot::Ref<godot::Image> create_image_default ();
