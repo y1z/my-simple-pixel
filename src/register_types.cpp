@@ -1,6 +1,7 @@
 // This class will stay just to be used as a reference
 //#include "item_data.hpp"
 #include "pixel_canvas.hpp"
+#include "color_points.hpp"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
@@ -18,6 +19,7 @@ void initialize_gdextension_types(ModuleInitializationLevel p_level)
 
 	// NOTE : I will keep the ItemData class in the source code to just to use as a reference
 	//GDREGISTER_CLASS(ItemData)
+	GDREGISTER_CLASS(ColorPoints)
 	GDREGISTER_CLASS(PixelCanvas)
 
 }
