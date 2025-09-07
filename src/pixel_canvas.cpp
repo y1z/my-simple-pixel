@@ -234,6 +234,14 @@ PixelCanvas::draw_color_points (const ColorPoints *color_points)
 
   for (i64 i = 0; i < points_len; ++i)
     {
+      const bool is_out_of_bounds = color_points->points[i].x >= ref_image->get_width() || color_points->points[i].y >= ref_image->get_height();
+      if (is_out_of_bounds) 
+      {
+        gd::String err_string ="Point is out of bounds [%s]" ;
+        gd::print_error(err_string % color_points->points[i]);
+        return;
+      }
+
       const i64 base_index = (color_points->points[i].y * offset_per_row)
                              + (color_points->points[i].x * colum_offset);
       const gd::Color &color = color_points->colors[i];

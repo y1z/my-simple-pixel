@@ -21,6 +21,8 @@ func _ready() -> void:
 	
 	print("DEFAULT COLOR  = %s" % PixelCanvas.DEFAULT_COLOR())
 	scene_sprite = %Sprite2D
+	pix_canvas.draw_pure_white_canvas()
+	scene_sprite.texture = pix_canvas.get_texture()
 	test_pixel_canvas()
 	test_color_point()
 	pass
@@ -32,10 +34,6 @@ func _input(event: InputEvent) -> void:
 	pass
 
 func test_pixel_canvas():
-	pix_canvas.draw_pure_white_canvas();
-	pix_canvas.draw_on_data();
-	pix_canvas.draw_diagnal_rgb_effect();
-	scene_sprite.texture = pix_canvas.get_texture()
 	#print("DEFAULT HEIGHT = %s"  % PixelCanvas.DEFAULT_HEIGHT);
 	#print("DEFAULT WIDTH = %s"  % PixelCanvas.DEFAULT_WIDTH);
 	pass
@@ -79,7 +77,7 @@ func debug_key_input(event: InputEvent) -> void:
 		pass
 	if event.is_action_pressed("DEBUG_K"):
 		var color_points: ColorPoints = ColorPoints.new()
-		for i in 10:
+		for i in 100:
 			var result_color:Color = Color.INDIAN_RED;
 			if i % 2 == 0: result_color = Color.SKY_BLUE;
 			color_points.add_color_point(Vector2i(i,i),result_color)
