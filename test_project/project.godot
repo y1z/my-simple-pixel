@@ -19,6 +19,29 @@ config/icon="res://icon.svg"
 
 enabled=PackedStringArray("res://addons/godot-vim/plugin.cfg")
 
+[input]
+
+DEBUG_P={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":true,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"location":0,"echo":false,"script":null)
+]
+}
+DEBUG_O={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":true,"pressed":false,"keycode":0,"physical_keycode":79,"key_label":0,"unicode":111,"location":0,"echo":false,"script":null)
+]
+}
+DEBUG_I={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":true,"pressed":false,"keycode":0,"physical_keycode":73,"key_label":0,"unicode":73,"location":0,"echo":false,"script":null)
+]
+}
+DEBUG_K={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"command_or_control_autoremap":true,"alt_pressed":false,"shift_pressed":true,"pressed":false,"keycode":0,"physical_keycode":75,"key_label":0,"unicode":75,"location":0,"echo":false,"script":null)
+]
+}
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
