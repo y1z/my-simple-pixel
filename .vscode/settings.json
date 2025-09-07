@@ -93,5 +93,6 @@
   "clang-format.executable": "C:\\Users\\dev\\AppData\\Roaming\\Python\\Python313\\Scripts\\clang-format.exe",
   "editor.formatOnSave": false,
   "clang-format.fallbackStyle": "gnu",
-  "clang-format.style": "file"
+  "clang-format.style": "file",
+  "vscode-neovim.neovimInitVimPaths.win32": "C:\\Users\\dev\\AppData\\Local\\nvim\\init.vim"
 }
