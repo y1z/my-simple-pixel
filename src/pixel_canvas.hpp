@@ -62,6 +62,7 @@ private:
 public:
   static godot::Ref<godot::Image> create_image_default ();
   static godot::Color DEFAULT_COLOR ();
+  static godot::Vector2i TOP_LEFT_CANVAS() ;
 
 protected:
   static void _bind_methods ();

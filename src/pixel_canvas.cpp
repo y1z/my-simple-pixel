@@ -353,6 +353,14 @@ PixelCanvas::DEFAULT_COLOR ()
   return s_DEFAULT_COLOR;
 }
 
+gd::Vector2i
+PixelCanvas::TOP_LEFT_CANVAS ()
+{
+  static gd::Vector2i s_TOP_LEFT_CANVAS = gd::Vector2i (0, 0);
+
+  return s_TOP_LEFT_CANVAS;
+}
+
 godot::Ref<godot::Image>
 PixelCanvas::get_image () const
 {
@@ -520,6 +528,12 @@ PixelCanvas::_bind_methods ()
   ADD_PROPERTY (PropertyInfo (Variant::INT, "height"), "set_height",
                 "get_height");
 
+  ClassDB::bind_method (D_METHOD ("set_color"), &PixelCanvas::set_color);
+  ClassDB::bind_method (D_METHOD ("get_color"), &PixelCanvas::get_color);
+
+  ADD_PROPERTY (PropertyInfo (Variant::COLOR, "current_color"), "set_color",
+                "get_color");
+
   /// CONSTANTS
   ///
   ClassDB::bind_integer_constant (get_class_static (), "", "DEFAULT_HEIGHT",
@@ -528,11 +542,10 @@ PixelCanvas::_bind_methods ()
   ClassDB::bind_integer_constant (get_class_static (), "", "DEFAULT_WIDTH",
                                   PixelCanvas::DEFAULT_WIDTH);
 
-  ClassDB::bind_method (D_METHOD ("set_color"), &PixelCanvas::set_color);
-  ClassDB::bind_method (D_METHOD ("get_color"), &PixelCanvas::get_color);
-
-  ADD_PROPERTY (PropertyInfo (Variant::COLOR, "current_color"), "set_color",
-                "get_color");
+  {
+    const gd::Vector2i TOP_LEFT_CANVAS = PixelCanvas::TOP_LEFT_CANVAS();
+    BIND_CONSTANT_VECTOR2I(TOP_LEFT_CANVAS);
+  }
 
   // BIND_CONSTANT(PixelCanvas::DEFAULT_HEIGHT);
 }
