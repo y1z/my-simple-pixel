@@ -72,9 +72,7 @@ bind_vector2i_constant (const godot::StringName &class_static,
   ::godot::ClassDB::bind_method (::godot::D_METHOD (#method), &class ::method);
 
 #define BIND_CONSTANT_VECTOR2I(vector2i_constant)                             \
-  ::godot::ClassDB::bind_integer_constant (                                   \
-      get_class_static (), "", vector2i_constant##_x, vector2i_constant.x);   \
-  ::godot::ClassDB::bind_integer_constant (                                   \
-      get_class_static (), "", vector2i_constant##_y, vector2i_constant.y);
+  ::helper::bind_vector2i_constant (get_class_static (), vector2i_constant,   \
+                                    #vector2i_constant);
 
 #endif // HELPERS_FOR_GODOT_HPP
