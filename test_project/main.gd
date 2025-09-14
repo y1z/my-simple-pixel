@@ -28,6 +28,9 @@ func _ready() -> void:
 	print("green = %s" %pix_canvas.DEFAULT_COLOR_g);
 	print("blue = %s" %pix_canvas.DEFAULT_COLOR_b);
 	print("alpha = %s" %pix_canvas.DEFAULT_COLOR_a);
+	
+	print("top_left_canvas.x = %s" % pix_canvas.TOP_LEFT_CANVAS_x)
+	print("top_left_canvas.y = %s" % pix_canvas.TOP_LEFT_CANVAS_y)
 	test_pixel_canvas()
 	test_color_point()
 	pass
