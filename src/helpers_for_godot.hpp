@@ -57,7 +57,7 @@ bind_vector2i_constant (const godot::StringName &class_static,
   const int64_t length = constant_name.length ();
   ::godot::ClassDB::bind_integer_constant (class_static, "",
                                            constant_name.insert (length, "_x"),
-                                           vector2i_constant.x));
+                                           vector2i_constant.x);
 
   ::godot::ClassDB::bind_integer_constant (class_static, "",
                                            constant_name.insert (length, "_y"),
