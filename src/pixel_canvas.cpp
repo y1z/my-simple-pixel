@@ -16,7 +16,10 @@
 #include "godot_cpp/variant/packed_vector2_array.hpp"
 #include "godot_cpp/variant/string.hpp"
 #include "godot_cpp/variant/variant.hpp"
+#include "godot_cpp/variant/vector2i.hpp"
+#include "helper_types.hpp"
 #include "helpers_for_godot.hpp"
+
 #include <array>
 #include <cstdint>
 
@@ -32,7 +35,8 @@ PixelCanvas::start ()
 {
   ref_image = create_image_default ();
   ref_texture = godot::ImageTexture::create_from_image (ref_image);
-  data_array.resize(DEFAULT_HEIGHT * DEFAULT_WIDTH * get_format_color_offset());
+  data_array.resize (DEFAULT_HEIGHT * DEFAULT_WIDTH
+                     * get_format_color_offset ());
   ref_texture->set_image (ref_image);
   has_started = true;
   return has_started;
@@ -76,6 +80,7 @@ PixelCanvas::draw_points (const godot::PackedVector2Array &points_to_draw)
   update_texture (data);
 }
 
+// Bresenham's Line algorithm
 void
 PixelCanvas::draw_line_l (const godot::Vector2i start,
                           const godot::Vector2i end)
@@ -85,6 +90,82 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
       return;
     }
   gd::print_line (gd::String ("[TODO]: Implement draw line"));
+
+  godot::Vector2i max_in_x = (start.x > end.x) ? start : end;
+
+  godot::Vector2i current_point = start;
+  const godot::Vector2i delta = end - start;
+  const godot::Vector2 f_start = start;
+  const godot::Vector2 f_end = end;
+  float slope = (f_start.x - f_end.x) / (f_start.y - f_end.y);
+}
+
+void
+PixelCanvas::draw_vertical_line (const gd::Vector2i start,
+                                 const int64_t length, const bool go_up)
+{
+  if (length < 0)
+    {
+      gd::String error_string = godot::vformat (
+          "CAN'T have a negative length, the length is %d", length);
+      gd::print_error (error_string);
+      return;
+    }
+
+  int64_t current_y_value = start.y;
+  const int64_t format_color_offset = get_format_color_offset ();
+  const int64_t row_offset = format_color_offset * width;
+  const int64_t colum_that_is_always_drawn = format_color_offset * start.x;
+  const int64_t increase_in_y = (go_up) ? -1 : 1;
+
+  for (i64 i = 0; i < length; ++i)
+    {
+      const int64_t final_index
+          = (current_y_value * row_offset) + colum_that_is_always_drawn;
+
+      data_array.set (final_index + 0, current_color.get_r8 ());
+      data_array.set (final_index + 1, current_color.get_g8 ());
+      data_array.set (final_index + 2, current_color.get_b8 ());
+      data_array.set (final_index + 3, current_color.get_a8 ());
+
+      current_y_value = current_y_value + increase_in_y;
+    }
+
+  update_texture (data_array);
+}
+
+void
+PixelCanvas::draw_horizontal_line (const godot::Vector2i start,
+                                   const int64_t length, const bool go_right)
+{
+  if (length < 0)
+    {
+      gd::String error_string = godot::vformat (
+          "CAN'T have a negative length, the length is %d", length);
+      gd::print_error (error_string);
+      return;
+    }
+
+  i64 current_x_value = start.x;
+  const i64 increase_in_x = (go_right) ? 1 : -1;
+  const i64 format_color_offset = get_format_color_offset ();
+  const i64 row_offset = format_color_offset * width;
+  const i64 constant_row_index = row_offset * start.y;
+
+  for (i64 i = 0; i < length; ++i)
+    {
+      const i64 final_index
+          = constant_row_index + (current_x_value * format_color_offset);
+
+      data_array.set (final_index + 0, current_color.get_r8 ());
+      data_array.set (final_index + 1, current_color.get_g8 ());
+      data_array.set (final_index + 2, current_color.get_b8 ());
+      data_array.set (final_index + 3, current_color.get_a8 ());
+
+      current_x_value = current_x_value + increase_in_x;
+    }
+
+  update_texture (data_array);
 }
 
 void
@@ -164,9 +245,7 @@ PixelCanvas::draw_diagnal_rgb_effect ()
   meta_color_array[3]
       = std::array<int64_t, 4>{ half_transparent[0], half_transparent[1],
                                 half_transparent[2], half_transparent[3] };
-
   int64_t iterations = 0;
-  int64_t value = 0;
   int64_t meta_iteration = 0;
   for (int64_t i = 0; i < data.size (); i += 4)
     {
@@ -221,7 +300,6 @@ PixelCanvas::draw_color_points (const ColorPoints *color_points)
       return;
     }
 
-
   const i64 colors_len = color_points->colors.size ();
   const i64 points_len = color_points->points.size ();
   DEV_ASSERT (colors_len == points_len);
@@ -234,24 +312,27 @@ PixelCanvas::draw_color_points (const ColorPoints *color_points)
 
   for (i64 i = 0; i < points_len; ++i)
     {
-      const bool is_out_of_bounds = color_points->points[i].x >= ref_image->get_width() || color_points->points[i].y >= ref_image->get_height();
-      if (is_out_of_bounds) 
-      {
-        gd::String err_string ="Point is out of bounds [%s]" ;
-        gd::print_error(err_string % color_points->points[i]);
-        return;
-      }
+      const godot::Vector2i point = color_points->points[i];
+      const bool is_out_of_bounds
+          = (point.x >= ref_image->get_width () || point.x < 0)
+            || (point.y >= ref_image->get_height () || point.y < 0);
+      if (is_out_of_bounds)
+        {
+          gd::String err_string = "Point is out of bounds [%s]";
+          gd::print_error (err_string % point);
+          return;
+        }
 
-      const i64 base_index = (color_points->points[i].y * offset_per_row)
-                             + (color_points->points[i].x * colum_offset);
+      const i64 base_index
+          = (point.y * offset_per_row) + (point.x * colum_offset);
       const gd::Color &color = color_points->colors[i];
       data.set (base_index, color.get_r8 ());
       data.set (base_index + 1, color.get_g8 ());
       data.set (base_index + 2, color.get_b8 ());
       data.set (base_index + 3, color.get_a8 ());
     }
-  
-    update_texture(data);
+
+  update_texture (data);
 }
 
 godot::Ref<godot::Image>
@@ -268,7 +349,7 @@ PixelCanvas::DEFAULT_COLOR ()
 
   // I tried to define this in the .hpp file but godot stops reconizing the
   // class if I do that
-  static gd::Color s_DEFAULT_COLOR = gd::Color (1, 12, 1);
+  static gd::Color s_DEFAULT_COLOR = gd::Color (0.615f, 0.f, 1.f);
   return s_DEFAULT_COLOR;
 }
 
@@ -347,14 +428,12 @@ PixelCanvas::get_format_color_offset () const
       break;
 
     default:
-      gd::String error_string = gd::String (""); // only support
-      error_string.insert (0, "ONLY SUPPORT THE FORMATS ");
-      // gd::Image::Format::FORMAT_RGBA8
-      error_string.insert (error_string.length (),
-                           "FORMAT_RGB8 and FORMAT_RGBA8 ");
-      error_string.insert (error_string.length (),
-                           ", WE DON'T SUPPORT THE FORMAT AT INDEX [%s] ");
-      error_string % static_cast<int64_t> (current_format);
+      gd::String error_string = gd::vformat ("ONLY SUPPORT THE FORMATS %s, %s",
+                                             "FORMAT_RGB8", "FORMAT_RGBA8");
+      gd::print_error (error_string);
+
+      error_string = gd::vformat ("\nWe don't support the format of %d",
+                                  static_cast<int64_t> (current_format));
       gd::print_error (error_string);
 
       break;
@@ -368,6 +447,7 @@ PixelCanvas::update_texture (const godot::PackedByteArray &texture_update)
 {
   auto format = ref_image->get_format ();
   ref_image->set_data (width, height, false, format, texture_update);
+
   ref_texture->update (ref_image);
 }
 
@@ -422,6 +502,10 @@ PixelCanvas::_bind_methods ()
   ClassDB::bind_static_method (get_class_static (),
                                D_METHOD ("create_image_default"),
                                &PixelCanvas::create_image_default);
+
+  const godot::Color default_color = DEFAULT_COLOR ();
+  helper::bind_color_constant (get_class_static (), default_color,
+                               "DEFAULT_COLOR");
 
   /// PROPERTIES
   ClassDB::bind_method (D_METHOD ("set_width", "new_width"),

@@ -55,6 +55,10 @@ private:
   void update_texture (const godot::PackedByteArray &texture_update);
   bool check_if_pixel_canvas_was_started () const;
 
+  //draw
+  void draw_vertical_line(const godot::Vector2i start, const int64_t length, const bool go_up );
+  void draw_horizontal_line(const godot::Vector2i start, const int64_t length, const bool go_right );
+
 public:
   static godot::Ref<godot::Image> create_image_default ();
   static godot::Color DEFAULT_COLOR ();

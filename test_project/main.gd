@@ -23,6 +23,11 @@ func _ready() -> void:
 	scene_sprite = %Sprite2D
 	pix_canvas.draw_pure_white_canvas()
 	scene_sprite.texture = pix_canvas.get_texture()
+	
+	print("red = %s" % pix_canvas.DEFAULT_COLOR_r);
+	print("green = %s" %pix_canvas.DEFAULT_COLOR_g);
+	print("blue = %s" %pix_canvas.DEFAULT_COLOR_b);
+	print("alpha = %s" %pix_canvas.DEFAULT_COLOR_a);
 	test_pixel_canvas()
 	test_color_point()
 	pass
