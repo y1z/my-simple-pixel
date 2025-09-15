@@ -82,7 +82,6 @@ PixelCanvas::draw_points (const godot::PackedVector2Array &points_to_draw)
   update_texture (data);
 }
 
-// Bresenham's Line algorithm
 void
 PixelCanvas::draw_line_l (const godot::Vector2i start,
                           const godot::Vector2i end)
@@ -91,7 +90,7 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
     {
       return;
     }
-  gd::print_line (gd::String ("[TODO]: Implement draw line"));
+  //gd::print_line (gd::String ("[TODO]: Implement draw line"));
 
   const godot::Vector2i delta = end - start;
 
@@ -109,6 +108,7 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
       return;
     }
 
+  // Bresenham's Line algorithm
   const gd::Vector2i delta_absolute
       = gd::Vector2i (std::abs (delta.x), std::abs (delta.y));
 
@@ -124,7 +124,16 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
   for (i64 i = 0; i < steps; ++i)
     {
       current_position = current_position + increment;
+      const i64 base_index = calculate_index (std::round (current_position.x),
+                                              std::round (current_position.y));
+      data_array.set (base_index + 0, current_color.get_r8 ());
+      data_array.set (base_index + 1, current_color.get_g8 ());
+      data_array.set (base_index + 2, current_color.get_b8 ());
+      data_array.set (base_index + 3, current_color.get_a8 ());
+
     }
+
+    update_texture(data_array);
 }
 
 void
@@ -499,9 +508,9 @@ PixelCanvas::check_if_pixel_canvas_was_started () const
 }
 
 int64_t
-PixelCanvas::calculate_index(const int64_t x,const int64_t y) 
+PixelCanvas::calculate_index (const int64_t x, const int64_t y)
 {
-  const i64 format_color_offset = get_format_color_offset();
+  const i64 format_color_offset = get_format_color_offset ();
   const i64 row_offset = (format_color_offset * width);
   const i64 colum_offset = (format_color_offset);
 
