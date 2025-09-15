@@ -1,6 +1,5 @@
 extends Node2D
 
-#var image_texture : ImageTexture
 var pix_canvas: PixelCanvas
 
 var scene_sprite: Sprite2D
@@ -9,8 +8,11 @@ var buttons_container: VBoxContainer
 var buttons: Array[Button]
 
 var function_dict: Dictionary = {0: test_color_point,
-1: draw_lines,
-2: test_color_points}
+1: draw_horizontal_lines,
+2: test_color_points,
+3: test_draw_points,
+4: test_draw_pure_white_canvas,
+}
 
 
 func _ready() -> void:
@@ -48,9 +50,9 @@ func _ready() -> void:
 	scene_sprite.texture = pix_canvas.get_texture()
 
 	print("red = %s" % pix_canvas.DEFAULT_COLOR_r);
-	print("green = %s" %pix_canvas.DEFAULT_COLOR_g);
-	print("blue = %s" %pix_canvas.DEFAULT_COLOR_b);
-	print("alpha = %s" %pix_canvas.DEFAULT_COLOR_a);
+	print("green = %s" % pix_canvas.DEFAULT_COLOR_g);
+	print("blue = %s" % pix_canvas.DEFAULT_COLOR_b);
+	print("alpha = %s" % pix_canvas.DEFAULT_COLOR_a);
 
 	print("top_left_canvas.x = %s" % pix_canvas.TOP_LEFT_CANVAS_x)
 	print("top_left_canvas.y = %s" % pix_canvas.TOP_LEFT_CANVAS_y)
@@ -86,7 +88,7 @@ func test_color_point():
 		pass
 
 	print("AFTER ADDING count = %s" % color_and_point.get_count())
-
+	pix_canvas.draw_color_points(color_and_point)
 	pass
 
 
@@ -106,29 +108,20 @@ func debug_key_input(event: InputEvent) -> void:
 		pass
 
 	if has_pressed_p:
-		print("pressed P")
-		var t = PackedVector2Array(
-			[Vector2(1,1),
-			Vector2(2,2),
-			Vector2(3,2),
-			Vector2(2,3),
-			Vector2(4,4)
-			]);
-
-		pix_canvas.draw_points(t)
+		test_draw_points()
 		pass
 
 	if event.is_action_pressed("DEBUG_K"):
 		test_color_point()
 
 	if event.is_action_pressed("DEBUG_L"):
-		draw_lines()
+		draw_horizontal_lines()
 		pass
 
 	pass
 
 
-func draw_lines() ->void:
+func draw_horizontal_lines() ->void:
 	print("DRAW LINES")
 	print("horizontal lines")
 
@@ -158,11 +151,32 @@ func draw_lines() ->void:
 func test_color_points() -> void:
 	var color_points: ColorPoints = ColorPoints.new()
 
-	for i in 100:
+	for i in pix_canvas.width:
 		var result_color:Color = Color.INDIAN_RED;
 
 		if i % 2 == 0: result_color = Color.SKY_BLUE;
 		color_points.add_color_point(Vector2i(i,i),result_color)
 
+	pass
 	pix_canvas.draw_color_points(color_points);
+pass
+
+
+func test_draw_points() -> void:
+
+	print("pressed P")
+	var t = PackedVector2Array(
+		[Vector2(1,1),
+		Vector2(2,2),
+		Vector2(3,2),
+		Vector2(2,3),
+		Vector2(4,4)
+		]);
+
+	pix_canvas.draw_points(t)
+	pass
+
+
+func test_draw_pure_white_canvas() -> void:
+	pix_canvas.draw_pure_white_canvas()
 	pass

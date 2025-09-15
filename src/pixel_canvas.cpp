@@ -90,7 +90,7 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
     {
       return;
     }
-  //gd::print_line (gd::String ("[TODO]: Implement draw line"));
+  // gd::print_line (gd::String ("[TODO]: Implement draw line"));
 
   const godot::Vector2i delta = end - start;
 
@@ -130,10 +130,9 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
       data_array.set (base_index + 1, current_color.get_g8 ());
       data_array.set (base_index + 2, current_color.get_b8 ());
       data_array.set (base_index + 3, current_color.get_a8 ());
-
     }
 
-    update_texture(data_array);
+  update_texture (data_array);
 }
 
 void
@@ -383,7 +382,7 @@ gd::Color
 PixelCanvas::DEFAULT_COLOR ()
 {
 
-  // I tried to define this in the .hpp file but godot stops reconizing the
+  // I tried to define this in the .hpp file but godot stops recognizing the
   // class if I do that
   static gd::Color s_DEFAULT_COLOR = gd::Color (0.615f, 0.f, 1.f);
   return s_DEFAULT_COLOR;

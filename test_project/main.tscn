@@ -1,53 +1,84 @@
-[gd_scene load_steps=4 format=3 uid="uid://hn8dh5y3yq6a"]
+[gd_scene load_steps=5 format=3 uid="uid://hn8dh5y3yq6a"]
 
-[ext_resource type="Script" uid="uid://gscsivoywwwo" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://gscsivoywwwo" path="res://Scripts/main.gd" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://bioamopp6syek" path="res://icon.svg" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://yw00na74ykye" path="res://Scripts/camera.gd" id="2_h2yge"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0xm2m"]
-bg_color = Color(0.811107, 0.772184, 0.753145, 0.733333)
+bg_color = Color(0.650061, 0.801506, 0.929587, 0.803922)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_ig7tw")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PanelContainer" type="PanelContainer" parent="Control"]
-layout_mode = 1
-offset_left = 551.0
-offset_right = 1151.0
-offset_bottom = 370.0
-
-[node name="Panel" type="Panel" parent="Control/PanelContainer"]
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
-
-[node name="Buttons Container" type="VBoxContainer" parent="Control/PanelContainer/Panel"]
+[node name="Main Camera" type="Camera2D" parent="."]
 unique_name_in_owner = true
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Button" type="Button" parent="Control/PanelContainer/Panel/Buttons Container"]
-layout_mode = 2
-text = "draw lines"
-
-[node name="Button2" type="Button" parent="Control/PanelContainer/Panel/Buttons Container"]
-layout_mode = 2
-text = "draw lines"
-
-[node name="Button3" type="Button" parent="Control/PanelContainer/Panel/Buttons Container"]
-layout_mode = 2
-text = "draw lines"
-
-[node name="Button4" type="Button" parent="Control/PanelContainer/Panel/Buttons Container"]
-layout_mode = 2
-text = "draw lines"
+position = Vector2(545.355, 195)
+script = ExtResource("2_h2yge")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(150, 131)
 texture = ExtResource("2_0xm2m")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -40.645
+offset_top = -154.0
+offset_right = -0.64502
+offset_bottom = -114.0
+grow_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 1
+offset_left = 550.0
+offset_top = 25.0
+offset_right = 1150.0
+offset_bottom = 425.0
+
+[node name="Panel" type="Panel" parent="Control/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0xm2m")
+
+[node name="Scroll Container" type="ScrollContainer" parent="Control/PanelContainer/Panel"]
+layout_mode = 0
+offset_right = 499.0
+offset_bottom = 214.0
+
+[node name="Buttons Container" type="VBoxContainer" parent="Control/PanelContainer/Panel/Scroll Container"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.807843, 0, 1)
+text = "DEBUG MENU"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button2" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button3" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button4" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button5" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button6" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
