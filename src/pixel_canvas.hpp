@@ -55,6 +55,8 @@ private:
   void update_texture (const godot::PackedByteArray &texture_update);
   bool check_if_pixel_canvas_was_started () const;
 
+  int64_t calculate_index(const int64_t x,const int64_t y);
+
   //draw
   void draw_vertical_line(const godot::Vector2i start, const int64_t length, const bool go_up );
   void draw_horizontal_line(const godot::Vector2i start, const int64_t length, const bool go_right );

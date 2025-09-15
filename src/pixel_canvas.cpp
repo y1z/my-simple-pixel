@@ -11,6 +11,7 @@
 #include "godot_cpp/core/property_info.hpp"
 #include "godot_cpp/variant/array.hpp"
 #include "godot_cpp/variant/color.hpp"
+#include "godot_cpp/variant/dictionary.hpp"
 #include "godot_cpp/variant/packed_byte_array.hpp"
 #include "godot_cpp/variant/packed_color_array.hpp"
 #include "godot_cpp/variant/packed_vector2_array.hpp"
@@ -21,6 +22,7 @@
 #include "helpers_for_godot.hpp"
 
 #include <array>
+#include <cmath>
 #include <cstdint>
 
 namespace gd = godot;
@@ -91,13 +93,38 @@ PixelCanvas::draw_line_l (const godot::Vector2i start,
     }
   gd::print_line (gd::String ("[TODO]: Implement draw line"));
 
-  godot::Vector2i max_in_x = (start.x > end.x) ? start : end;
-
-  godot::Vector2i current_point = start;
   const godot::Vector2i delta = end - start;
-  const godot::Vector2 f_start = start;
-  const godot::Vector2 f_end = end;
-  float slope = (f_start.x - f_end.x) / (f_start.y - f_end.y);
+
+  if (start.x == end.x)
+    {
+      const bool should_go_up = (delta.y < 0);
+      draw_vertical_line (start, std::abs (delta.y), should_go_up);
+      return;
+    }
+
+  if (start.y == end.y)
+    {
+      const bool should_go_right = (delta.x > -1);
+      draw_horizontal_line (start, std::abs (delta.x), should_go_right);
+      return;
+    }
+
+  const gd::Vector2i delta_absolute
+      = gd::Vector2i (std::abs (delta.x), std::abs (delta.y));
+
+  const i64 steps = (delta_absolute.x > delta_absolute.y) ? delta_absolute.x
+                                                          : delta_absolute.y;
+
+  const gd::Vector2 increment
+      = gd::Vector2 (delta_absolute.x / static_cast<float> (steps),
+                     delta_absolute.y / static_cast<float> (steps));
+
+  gd::Vector2 current_position = start;
+
+  for (i64 i = 0; i < steps; ++i)
+    {
+      current_position = current_position + increment;
+    }
 }
 
 void
@@ -443,7 +470,6 @@ PixelCanvas::get_format_color_offset () const
       error_string = gd::vformat ("\nWe don't support the format of %d",
                                   static_cast<int64_t> (current_format));
       gd::print_error (error_string);
-
       break;
     }
 
@@ -470,6 +496,16 @@ PixelCanvas::check_if_pixel_canvas_was_started () const
     }
 
   return has_started;
+}
+
+int64_t
+PixelCanvas::calculate_index(const int64_t x,const int64_t y) 
+{
+  const i64 format_color_offset = get_format_color_offset();
+  const i64 row_offset = (format_color_offset * width);
+  const i64 colum_offset = (format_color_offset);
+
+  return (row_offset * y) + (colum_offset * x);
 }
 
 void
@@ -543,8 +579,8 @@ PixelCanvas::_bind_methods ()
                                   PixelCanvas::DEFAULT_WIDTH);
 
   {
-    const gd::Vector2i TOP_LEFT_CANVAS = PixelCanvas::TOP_LEFT_CANVAS();
-    BIND_CONSTANT_VECTOR2I(TOP_LEFT_CANVAS);
+    const gd::Vector2i TOP_LEFT_CANVAS = PixelCanvas::TOP_LEFT_CANVAS ();
+    BIND_CONSTANT_VECTOR2I (TOP_LEFT_CANVAS);
   }
 
   // BIND_CONSTANT(PixelCanvas::DEFAULT_HEIGHT);
