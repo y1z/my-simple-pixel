@@ -82,3 +82,19 @@ text = "draw lines"
 [node name="Button6" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
 layout_mode = 2
 text = "draw lines"
+
+[node name="Button7" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button8" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button9" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"
+
+[node name="Button10" type="Button" parent="Control/PanelContainer/Panel/Scroll Container/Buttons Container"]
+layout_mode = 2
+text = "draw lines"

@@ -12,7 +12,19 @@ var function_dict: Dictionary = {0: test_color_point,
 2: test_color_points,
 3: test_draw_points,
 4: test_draw_pure_white_canvas,
+5: draw_vertical_lines,
 }
+
+var color_dic:Dictionary = {0: Color.INDIAN_RED,
+	 1: Color.SEA_GREEN,
+	 2: Color.AQUA,
+	 3: Color.REBECCA_PURPLE,
+	 4: Color.DARK_RED,
+	 5: Color.CHARTREUSE,
+	 6: Color.CADET_BLUE,
+	 7: Color.WEB_PURPLE,
+	 8: Color.MEDIUM_VIOLET_RED,
+	}
 
 
 func _ready() -> void:
@@ -56,7 +68,6 @@ func _ready() -> void:
 
 	print("top_left_canvas.x = %s" % pix_canvas.TOP_LEFT_CANVAS_x)
 	print("top_left_canvas.y = %s" % pix_canvas.TOP_LEFT_CANVAS_y)
-	test_pixel_canvas()
 	test_color_point()
 	pass
 
@@ -65,12 +76,6 @@ func _input(event: InputEvent) -> void:
 	## Debug only functions
 	if !OS.is_debug_build(): return;
 	debug_key_input(event)
-	pass
-
-
-func test_pixel_canvas():
-	#print("DEFAULT HEIGHT = %s"  % PixelCanvas.DEFAULT_HEIGHT);
-	#print("DEFAULT WIDTH = %s"  % PixelCanvas.DEFAULT_WIDTH);
 	pass
 
 
@@ -129,12 +134,9 @@ func draw_horizontal_lines() ->void:
 	var new_color: Color = Color.INDIAN_RED
 	var start_horizontal_line = Vector2i(0,0);
 	var end_horizontal_line = Vector2i(pix_canvas.width - 1,0);
-	var color_dic:Dictionary = {0: Color.INDIAN_RED,
-	 1: Color.SEA_GREEN,
-	 2: Color.AQUA,
-	 3: Color.REBECCA_PURPLE}
+
 	for i in pix_canvas.height - 1:
-		var color_index:int = i % 4;
+		var color_index:int = i % color_dic.size();
 		new_color = color_dic[color_index];
 		pix_canvas.current_color = new_color;
 
@@ -142,6 +144,27 @@ func draw_horizontal_lines() ->void:
 		start_horizontal_line.y = start_horizontal_line.y + 1;
 		end_horizontal_line.y = end_horizontal_line.y + 1;
 
+		pass
+
+	pix_canvas.current_color = current_color_copy;
+	pass
+
+
+func draw_vertical_lines() -> void:
+	var current_color_copy: Color = pix_canvas.current_color
+	var new_color: Color = Color.INDIAN_RED
+	var start_vertical_line := Vector2i(0,0);
+	var end_vertical_line := Vector2i(0, pix_canvas.height - 1);
+
+	for i in pix_canvas.width - 1:
+
+		var color_index:int = i % color_dic.size();
+		new_color = color_dic[color_index];
+		pix_canvas.current_color = new_color;
+
+		pix_canvas.draw_line_l(start_vertical_line, end_vertical_line)
+		start_vertical_line.x = start_vertical_line.x + 1;
+		end_vertical_line.x = end_vertical_line.x + 1;
 		pass
 
 	pix_canvas.current_color = current_color_copy;
@@ -164,7 +187,6 @@ pass
 
 func test_draw_points() -> void:
 
-	print("pressed P")
 	var t = PackedVector2Array(
 		[Vector2(1,1),
 		Vector2(2,2),

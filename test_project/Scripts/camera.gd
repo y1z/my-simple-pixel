@@ -60,4 +60,4 @@ func _input(event: InputEvent) -> void:
 func track_mouse_mode() -> void:
 	end_click_position = get_local_mouse_position();
 	click_delta = start_click_position - end_click_position;
-	self.position = last_position + click_delta
+	self.position= last_position + click_delta
